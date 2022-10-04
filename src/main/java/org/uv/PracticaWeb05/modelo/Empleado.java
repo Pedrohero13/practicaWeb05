@@ -9,19 +9,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Pedro
  */
 @Entity
+@Table(name = "empleado")
 public class Empleado {
     @Id 
     @GeneratedValue (strategy  = GenerationType.AUTO)
     private long id;
     @Column (name= "nombre")
     private String nombre;
- @Column (name= "direccion")
+    @Column (name= "direccion")
     private String direccion;
     @Column (name= "telefono")
     private String telefono;
