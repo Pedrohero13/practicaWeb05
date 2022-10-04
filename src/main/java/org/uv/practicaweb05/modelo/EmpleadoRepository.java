@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.uv.PracticaWeb05.modelo;
+package org.uv.practicaweb05.modelo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

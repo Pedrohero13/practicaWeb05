@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.uv.PracticaWeb05.Controller;
+package org.uv.practicaweb05.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.uv.PracticaWeb05.modelo.Empleado;
-import org.uv.PracticaWeb05.modelo.EmpleadoRepository;
+import org.uv.practicaweb05.modelo.Empleado;
+import org.uv.practicaweb05.modelo.EmpleadoDTO;
+import org.uv.practicaweb05.modelo.EmpleadoRepository;
 
 /**
  *
@@ -36,10 +37,10 @@ public class EmpleadoController {
     @GetMapping("/empleado/{id}")
     public ResponseEntity<Empleado> getEmpleado(@PathVariable("id") Long id) {
 
-        Empleado empleado = null;
+        
         Optional<Empleado> optional = empleadoRepository.findById(id);
         if (optional.isPresent()) {
-            empleado = optional.get();
+            Empleado empleado = optional.get();
             return new ResponseEntity<>(empleado, HttpStatus.FOUND);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -48,9 +49,15 @@ public class EmpleadoController {
     }
 
     @PostMapping("/empleado")
-    public ResponseEntity<Empleado> createEmpleado(@RequestBody Empleado empleado) {
-        Empleado emp = empleadoRepository.save(empleado);
-        return new ResponseEntity<>(emp, HttpStatus.CREATED);
+    public ResponseEntity<Empleado> createEmpleado(@RequestBody EmpleadoDTO dto) {
+        Empleado persisEmpleado = new Empleado();
+        persisEmpleado.setId(dto.getDni());
+        persisEmpleado.setNombre(dto.getName());
+        persisEmpleado.setDireccion(dto.getAdress());
+        persisEmpleado.setTelefono(dto.getPhoneNumber());
+        
+        empleadoRepository.save(persisEmpleado);
+        return new ResponseEntity<>(persisEmpleado, HttpStatus.CREATED);
     }
 
     @GetMapping("/empleado")
@@ -60,14 +67,17 @@ public class EmpleadoController {
 
     @PutMapping("/empleado/{id}")
     public ResponseEntity<Empleado> updateEmpleado(@PathVariable(value = "id") Long empleadoId,
-            @RequestBody Empleado empleado) {
+            @RequestBody EmpleadoDTO dto) {
+        
+        Empleado persisEmpleado = new Empleado();
+        persisEmpleado.setId(dto.getDni());
+        persisEmpleado.setNombre(dto.getName());
+        persisEmpleado.setDireccion(dto.getAdress());
+        persisEmpleado.setTelefono(dto.getPhoneNumber());
+        
         Optional<Empleado> optional = empleadoRepository.findById(empleadoId);
         if (optional.isPresent()) {
-            Empleado emp = optional.get();
-            emp.setNombre(empleado.getNombre());
-            emp.setDireccion(empleado.getDireccion());
-            emp.setTelefono(empleado.getTelefono());
-            Empleado updatedEmpleado = empleadoRepository.save(empleado);
+            Empleado updatedEmpleado = empleadoRepository.save(persisEmpleado);
             return new ResponseEntity<>(updatedEmpleado, HttpStatus.CREATED);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
